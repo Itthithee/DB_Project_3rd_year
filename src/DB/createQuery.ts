@@ -1,4 +1,3 @@
-import { All } from "@nestjs/common"
 class CreateSQL{
  findAll(table : string) : string{
     return "select * From \""+table+"\""
@@ -11,12 +10,13 @@ class CreateSQL{
 }
  updateByIdValColTable(id : string, idCol :string, val : string[], col : string[], table : string){
     if(col.length != val.length) throw "Number of Input is Invalid"
+    
     let collumn  = "(\""+col.join("\",\"")+"\")"
     let value  =  "(\'"+val.join("\',\'")+"\')"
-    return "update \""+table+"\" set "+collumn+" = "+value+" where "+idCol+" = \'"+id+"\'"
+    return "update \""+table+"\" set "+collumn+" = "+value+" where \""+idCol+"\" = \'"+id+"\'"
 }
  deleteByIdColTable(id : string ,col :string, table : string){
-    return "delete From \""+table+"\" where "+col+" = "+id
+    return "delete From \""+table+"\" where \""+col+"\" = \'"+id+"\'"
 }
  findByValColTable(val : string[], col : string[], table : string){
     if(col.length != val.length) throw "Number of Input is Invalid"

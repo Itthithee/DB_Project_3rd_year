@@ -94,13 +94,22 @@ export class EmployeeService {
         console.log(result)
         return result;
     }
-    async deleteEmployee(){
-
+    async deleteEmployee(empId){
+        let query : string = createSQL.deleteByIdColTable(empId,"EmpID","EMPLOYEE")
+        let result = await conn.query(query);
+        return result
     }
     async findByName(empFname , empLname ){
         let query : string = createSQL.findByValColTable([empFname,empLname],["Fname","Lname"],"EMPLOYEE")
         let result = await conn.query(query);
-        return result
+        if (result.length == 0) return "not found"
+        return result;
+    }
+    async findById(empId){
+        let query : string = createSQL.findByValColTable([empId],["EmpID"],"EMPLOYEE")
+        let result = await conn.query(query);
+        if (result.length == 0) return "not found"
+        return result;
     }
     async updateEmployee(
         empId : string,
@@ -113,15 +122,11 @@ export class EmployeeService {
         empSsn : string,
         empTel : string,
         empJobType : string,
-        licenseId :string,
-        licenseExp :string,
-        head :string,
-        startDate :string,
-        endDate :string,
-        special :string
         ){
+            let empCol =["Fname","Lname","BirthDate",
+                        "Nationality","Gender","Address","Ssn",
+                            "Tel","JobType"]
             let val = [
-            empId ,
             empFname ,
             empLname ,
             empBirtDate ,
@@ -131,13 +136,8 @@ export class EmployeeService {
             empSsn ,
             empTel ,
             empJobType ,
-            licenseId ,
-            licenseExp ,
-            head ,
-            startDate ,
-            endDate ,
-            special ]
-        let query : string = createSQL.updateByIdValColTable(empId,"EmpID",val,this.employee,"EMPLOYEE")
+            ]
+        let query : string = createSQL.updateByIdValColTable(empId,"EmpID",val,empCol,"EMPLOYEE")
         let result = await conn.query(query);
         return result
     }
