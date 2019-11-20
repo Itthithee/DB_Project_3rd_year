@@ -26,11 +26,11 @@ export class CaseService {
 
         let val = [id, date, desc, diag, patId]
         let query1 = createSQL.insertValColTable(val, col, "CASE")
-        let query2 = createSQL.insertValColTable([id, docId], ["CaseID", "DoctorID"], "DOCTOR_OWN_CASE")
 
         let result1 = await conn.query(query1);
-        let result2 = await conn.query(query2);
-        if (result2.name == "error") {
+        let query2 = createSQL.insertValColTable([id, docId], ["CaseID", "DoctorID"], "DOCTOR_OWN_CASE")
+        let result2 = await conn.query(query2)
+        if (result2.name = "error") {
             this.deleteCase(id)
         }
         return [result1, result2]
@@ -66,7 +66,7 @@ export class CaseService {
         return result
     }
     async deleteCase(id) {
-        let query: string = createSQL.deleteByIdColTable(id, "CaseID", "CASE")
+        let query: string = createSQL.deleteByIdColTable([id], ["CaseID"], "CASE")
         let result = await conn.query(query);
         return result
     }
@@ -75,5 +75,35 @@ export class CaseService {
         let result = await conn.query(query);
         console.log(result)
         return result;
+    }
+    async insertNurseTCOCase(id, nurseId) {
+        let query = createSQL.insertValColTable([id, nurseId], ["CaseID", "NurseID"], "NURSE_TCO_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async insertInternTROCase(id, internId) {
+        let query = createSQL.insertValColTable([id, internId], ["CaseID", "InternID"], "INTERN_TRO_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async insertDoctorOwnCase(id, docId) {
+        let query = createSQL.insertValColTable([id, docId], ["CaseID", "DoctorID"], "DOCTOR_OWN_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async deleteNurseTCOCase(id, nurseId) {
+        let query = createSQL.deleteByIdColTable([id, nurseId], ["CaseID", "NurseID"], "NURSE_TCO_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async deleteInternTROCase(id, internId) {
+        let query = createSQL.deleteByIdColTable([id, internId], ["CaseID", "InternID"], "INTERN_TRO_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async deleteDoctorOwnCase(id, docId) {
+        let query = createSQL.deleteByIdColTable([id, docId], ["CaseID", "DoctorID"], "DOCTOR_OWN_CASE")
+        let result = await conn.query(query)
+        return result
     }
 }

@@ -29,7 +29,7 @@ export class PatientController {
     getAll(): any {
         return this.patientservice.getAll();
     }
-    @Get('/findbyname/:fname/:lname')
+    @Get('findbyname/:fname/:lname')
     findByName(@Param('fname') fname: string, @Param('lname') lname: string) {
         return this.patientservice.findByName(fname, lname);
     }
@@ -37,7 +37,7 @@ export class PatientController {
     removeById(@Param('id') id: string) {
         return this.patientservice.deletePatient(id);
     }
-    @Get(':id')
+    @Get('find/:id')
     findById(@Param('id') id: string) {
         return this.patientservice.findById(id);
     }

@@ -58,7 +58,7 @@ export class PatientService {
         return result;
     }
     async deletePatient(id) {
-        let query: string = createSQL.deleteByIdColTable(id, "PatientID", "PATIENT")
+        let query: string = createSQL.deleteByIdColTable([id], ["PatientID"], "PATIENT")
         let result = await conn.query(query);
         return result
     }

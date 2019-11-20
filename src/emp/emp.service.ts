@@ -65,7 +65,7 @@ export class EmployeeService {
                 break;
 
             case this.jobList[1]: ///nurse
-                query2 = createSQL.insertValColTable([empId, , head, licenseId, licenseExp]
+                query2 = createSQL.insertValColTable([empId , head, licenseId, licenseExp]
                     , this.nurse, "NURSE")
                 break;
             case this.jobList[2]: ///intern
@@ -99,10 +99,10 @@ export class EmployeeService {
         return result;
     }
     async deleteEmployee(empId) {
-        let query: string = createSQL.deleteByIdColTable(empId, "EmpID", "EMPLOYEE")
+        let query: string = createSQL.deleteByIdColTable([empId], ["EmpID"], "EMPLOYEE")
         let result = await conn.query(query);
         console.log(result);
-        
+
         return result
     }
     async findByName(empFname, empLname) {
@@ -146,6 +146,51 @@ export class EmployeeService {
         let query: string = createSQL.updateByIdValColTable(empId, "EmpID", val, empCol, "EMPLOYEE")
         let result = await conn.query(query);
         return result
+    }
+    async deleteNurse(id) {
+        let query = createSQL.deleteByIdColTable([id], ["EmpID"], "NURSE")
+        let result = await conn.query(query)
+        return result
+    }
+    async deleteIntern(id) {
+        let query = createSQL.deleteByIdColTable([id], ["EmpID"], "INTERN")
+        let result = await conn.query(query)
+        return result
+    }
+    async deleteDoctor(id) {
+        let query = createSQL.deleteByIdColTable([id], ["EmpID"], "DOCTOR")
+        let result = await conn.query(query)
+        return result
+    }
+    async deletePharmacist(id) {
+        let query = createSQL.deleteByIdColTable([id], ["EmpID"], "PHARMACIST")
+        let result = await conn.query(query)
+        return result
+    }
+    async deleteOther(id) {
+        let query = createSQL.deleteByIdColTable([id], ["EmpID"], "OTHER_EMPLOYEE")
+        let result = await conn.query(query)
+        return result
+    }
+    async getAllDoctor() {
+        let query: string = createSQL.findByValColTable(["Doctor"], ["JobType"], "EMPLOYEE")
+        let result = await conn.query(query);
+        return result;
+    }
+    async getAllNurse() {
+        let query: string = createSQL.findByValColTable(["Nurse"], ["JobType"], "EMPLOYEE")
+        console.log(query);
+        let result = await conn.query(query);
+        console.log(result);
+
+        return result;
+    }
+    async getAllIntern() {
+        let query: string = createSQL.findByValColTable(["Intern"], ["JobType"], "EMPLOYEE")
+        console.log(query);
+        let result = await conn.query(query);
+        console.log(result);
+        return result;
     }
 }
 

@@ -43,7 +43,7 @@ export class EmployeeController {
     getEmps(): any {
         return this.employeeservice.getEmployees();
     }
-    @Get('/findbyname/:fname/:lname')
+    @Get('findbyname/:fname/:lname')
     findByName(@Param('fname') fname: string, @Param('lname') lname: string) {
         return this.employeeservice.findByName(fname, lname);
     }
@@ -51,7 +51,7 @@ export class EmployeeController {
     removeById(@Param('id') empId: string) {
         return this.employeeservice.deleteEmployee(empId);
     }
-    @Get(':id')
+    @Get('find/:id')
     findById(@Param('id') empId: string) {
         return this.employeeservice.findById(empId);
     }
@@ -86,7 +86,18 @@ export class EmployeeController {
             empJobType ,
         );
     }
-
+    @Get('doctor')
+    getAllDoctor(){
+        return this.employeeservice.getAllDoctor();
+    }
+    @Get('nurse')
+    getAllNurse(){
+        return this.employeeservice.getAllNurse();
+    }
+    @Get('intern')
+    getAllIntern(){
+        return this.employeeservice.getAllIntern();
+    }
     //@Put('update/:id')
     //updateById(@)
 
