@@ -9,7 +9,7 @@ export class CaseController {
         @Body('Description') desc: string,
         @Body('Diagnosis') diag: string,
         @Body('PatientID') patId: string,
-        @Body('DoctorID') docId:string
+        @Body('DoctorID') docId: string
 
     ) {
         return this.caseservice.insertCase(

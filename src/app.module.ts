@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {EmployeeModule} from './emp/emp.module'
 import {PatientModule} from './patient/patient.module'
-import {CaseModule} from "./Case/case.module";
+import {CaseModule} from "./ case/case.module";
 
 @Module({
   imports: [EmployeeModule,PatientModule,CaseModule],

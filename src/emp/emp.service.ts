@@ -1,4 +1,4 @@
-import { Injectable, Query } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { conn } from 'src/DB/connection'
 import { createSQL } from "src/DB/createQuery";
 @Injectable()
@@ -82,13 +82,14 @@ export class EmployeeService {
                 break;
 
         }
-        try {
-            let result1 = await conn.query(query1);
-            let result2 = await conn.query(query2);
-            return [result1, result2]
-        } catch (err) {
-            return err.toString
+
+        let result1 = await conn.query(query1);
+        let result2 = await conn.query(query2);
+        if (result2.name == "error") {
+            this.deleteEmployee(empId)
         }
+        return [result1, result2]
+
 
     }
     async getEmployees() {
@@ -100,6 +101,8 @@ export class EmployeeService {
     async deleteEmployee(empId) {
         let query: string = createSQL.deleteByIdColTable(empId, "EmpID", "EMPLOYEE")
         let result = await conn.query(query);
+        console.log(result);
+        
         return result
     }
     async findByName(empFname, empLname) {

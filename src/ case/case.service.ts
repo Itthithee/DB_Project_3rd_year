@@ -12,24 +12,28 @@ export class CaseService {
     ) {
         let col = ["CaseID", "Date", "Description", "Diagnosis", "PatientID"]
         let res = await conn.query("SELECT * FROM \"CASE\" ORDER BY \"CaseID\" DESC LIMIT 1")
+        console.log(res);
+
         let id: string = "0000001"
         if (res[0] !== undefined) {
-            let e = res[0].PatientID
+            let e = res[0].CaseID
             id = (parseInt(e, 10) + 1).toString()
             while (id.length < 7) {
                 id = "0" + id
             }
         }
+        console.log(id);
+
         let val = [id, date, desc, diag, patId]
         let query1 = createSQL.insertValColTable(val, col, "CASE")
-        let query2 = createSQL.insertValColTable([id,docId], ["CaseID","DoctorID"], "DOCTOR_OWN_CASE")
-        try {
-            let result1 = await conn.query(query1);
-            let result2= await conn.query(query2);
-            return [result1,result2]
-        } catch (err) {
-            return err.toString
+        let query2 = createSQL.insertValColTable([id, docId], ["CaseID", "DoctorID"], "DOCTOR_OWN_CASE")
+
+        let result1 = await conn.query(query1);
+        let result2 = await conn.query(query2);
+        if (result2.name == "error") {
+            this.deleteCase(id)
         }
+        return [result1, result2]
     }
     async findById(id) {
         let query: string = createSQL.findByValColTable([id], ["CaseID"], "CASE")
@@ -40,7 +44,7 @@ export class CaseService {
     async findByPatId(patId) {
         let query: string = createSQL.findByValColTable([patId], ["PatientID"], "CASE")
         console.log(query);
-        
+
         let result = await conn.query(query);
         if (result.length == 0) return "not found"
         return result;

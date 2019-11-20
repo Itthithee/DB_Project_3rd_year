@@ -13,8 +13,8 @@ export class PatientService {
         tel: string,
         couTel: string,
     ) {
-        let col = ["PatientID","Fname", "Lname", "BirthDate",
-            "Gender", "Address","Tel", "CousinTel"]
+        let col = ["PatientID", "Fname", "Lname", "BirthDate",
+            "Gender", "Address", "Tel", "CousinTel"]
         let res = await conn.query("SELECT * FROM \"PATIENT\" ORDER BY \"PatientID\" DESC LIMIT 1")
         let id: string = "0000001"
         if (res[0] !== undefined) {
@@ -33,7 +33,7 @@ export class PatientService {
             addr,
             tel,
             couTel,
-            
+
         ]
         /*let err : any[] = emp.checkConstraint();
         if(err[0]){
@@ -85,7 +85,7 @@ export class PatientService {
         couTel: string,
     ) {
         let col = ["Fname", "Lname", "BirthDate",
-            "Gender", "Address","Tel", "CousinTel"]
+            "Gender", "Address", "Tel", "CousinTel"]
         let val = [
             id,
             fname,

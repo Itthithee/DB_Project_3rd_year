@@ -5,4 +5,4 @@ import { CaseService } from './case.service';
     controllers: [CaseController],
     providers: [CaseService],
 })
-export class CaseModule{}
+export class CaseModule { }
