@@ -27,7 +27,16 @@ export class PatientController {
     }
     @Get()
     getAll(): any {
-        return this.patientservice.getAll();
+        const response = {
+            statusCode: 200,
+            headers: {
+              "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+              "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
+            },
+            body: this.patientservice.getAll()
+          };
+          
+        return this.patientservice.getAll() ;
     }
     @Get('findbyname/:fname/:lname')
     findByName(@Param('fname') fname: string, @Param('lname') lname: string) {
@@ -37,7 +46,7 @@ export class PatientController {
     removeById(@Param('id') id: string) {
         return this.patientservice.deletePatient(id);
     }
-    @Get('find/:id')
+    @Get('findbyid/:id')
     findById(@Param('id') id: string) {
         return this.patientservice.findById(id);
     }

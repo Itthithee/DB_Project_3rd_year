@@ -1,4 +1,4 @@
-import { Injectable, Query } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { conn } from 'src/DB/connection'
 import { createSQL } from "src/DB/createQuery";
 @Injectable()

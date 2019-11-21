@@ -106,4 +106,9 @@ export class CaseService {
         let result = await conn.query(query)
         return result
     }
+    async findDoctorOwnCase(id) {
+        let query = createSQL.findByValColTable([id], ["CaseID"], "DOCTOR_OWN_CASE")
+        let result = await conn.query(query)
+        return result
+    }
 }
