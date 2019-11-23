@@ -14,11 +14,11 @@ export class CaseService {
         let res = await conn.query("SELECT * FROM \"CASE\" ORDER BY \"CaseID\" DESC LIMIT 1")
         console.log(res);
 
-        let id: string = "0000001"
+        let id: string = "0000000001"
         if (res[0] !== undefined) {
             let e = res[0].CaseID
             id = (parseInt(e, 10) + 1).toString()
-            while (id.length < 7) {
+            while (id.length < 10) {
                 id = "0" + id
             }
         }
@@ -36,17 +36,45 @@ export class CaseService {
         return [result1, result2]
     }
     async findById(id) {
-        let query: string = createSQL.findByValColTable([id], ["CaseID"], "CASE")
+        let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" where \"CaseID\" = \'" + id + "\'"
+        let query2: string = "select * from \"DOCTOR_OWN_CASE\""
         let result = await conn.query(query);
-        if (result.length == 0) return "not found"
+        let result2 = await conn.query(query2);
+        if (result.name == "error" || result2.name == "error") {
+            return [result, result2]
+        }
+
+
+        result.forEach(obj => {
+            obj.DoctorID = []
+            result2.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.DoctorID.push(i.DoctorID); //how to fix o(n^2)
+                }
+            });
+        });
+        console.log(result)
         return result;
     }
     async findByPatId(patId) {
-        let query: string = createSQL.findByValColTable([patId], ["PatientID"], "CASE")
-        console.log(query);
-
+        let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" where \"PatientID\" = \'" + patId + "\'"
+        let query2: string = "select * from \"DOCTOR_OWN_CASE\""
         let result = await conn.query(query);
-        if (result.length == 0) return "not found"
+        let result2 = await conn.query(query2);
+        if (result.name == "error" || result2.name == "error") {
+            return [result, result2]
+        }
+
+
+        result.forEach(obj => {
+            obj.DoctorID = []
+            result2.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.DoctorID.push(i.DoctorID); //how to fix o(n^2)
+                }
+            });
+        });
+        console.log(result)
         return result;
     }
     async updateCase(
@@ -56,9 +84,7 @@ export class CaseService {
         diag: string,
         patId: string,
     ) {
-        let col = ["Fname", "Lname", "BirthDate",
-            "Gender", "Address",
-            "Tel", "CousinTel"]
+        let col = ["Date", "Description", "Diagnosis", "PatientID"]
 
         let val = [date, desc, diag, patId]
         let query: string = createSQL.updateByIdValColTable(id, "CaseID", val, col, "CASE")
@@ -71,8 +97,23 @@ export class CaseService {
         return result
     }
     async getAll() {
-        let query: string = createSQL.findAll("CASE")
+        let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" "
+        let query2: string = "select * from \"DOCTOR_OWN_CASE\""
         let result = await conn.query(query);
+        let result2 = await conn.query(query2);
+        if (result.name == "error" || result2.name == "error") {
+            return [result, result2]
+        }
+
+
+        result.forEach(obj => {
+            obj.DoctorID = []
+            result2.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.DoctorID.push(i.DoctorID); //how to fix o(n^2)
+                }
+            });
+        });
         console.log(result)
         return result;
     }
@@ -108,6 +149,16 @@ export class CaseService {
     }
     async findDoctorOwnCase(id) {
         let query = createSQL.findByValColTable([id], ["CaseID"], "DOCTOR_OWN_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async findNurseOwnCase(id) {
+        let query = createSQL.findByValColTable([id], ["CaseID"], "NURSE_TCO_CASE")
+        let result = await conn.query(query)
+        return result
+    }
+    async findInternOwnCase(id) {
+        let query = createSQL.findByValColTable([id], ["CaseID"], "INTERN_TRO_CASE")
         let result = await conn.query(query)
         return result
     }

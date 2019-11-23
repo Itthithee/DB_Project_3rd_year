@@ -65,7 +65,7 @@ export class EmployeeService {
                 break;
 
             case this.jobList[1]: ///nurse
-                query2 = createSQL.insertValColTable([empId , head, licenseId, licenseExp]
+                query2 = createSQL.insertValColTable([empId, head, licenseId, licenseExp]
                     , this.nurse, "NURSE")
                 break;
             case this.jobList[2]: ///intern
@@ -93,7 +93,7 @@ export class EmployeeService {
 
     }
     async getEmployees() {
-        let query: string = createSQL.findAll("EMPLOYEE")
+        let query: string = "select * from \"EMPLOYEE\" NATURAL LEFT OUTER JOIN \"DOCTOR\" NATURAL LEFT OUTER JOIN \"NURSE\" NATURAL LEFT OUTER JOIN \"INTERN\" NATURAL LEFT OUTER JOIN \"PHARMACIST\" NATURAL LEFT OUTER JOIN \"OTHER_EMPLOYEE\" "
         let result = await conn.query(query);
         console.log(result)
         return result;
@@ -144,8 +144,10 @@ export class EmployeeService {
             empJobType,
         ]
         let query: string = createSQL.updateByIdValColTable(empId, "EmpID", val, empCol, "EMPLOYEE")
+
         let result = await conn.query(query);
         return result
+
     }
     async deleteNurse(id) {
         let query = createSQL.deleteByIdColTable([id], ["EmpID"], "NURSE")
@@ -191,6 +193,36 @@ export class EmployeeService {
         let result = await conn.query(query);
         console.log(result);
         return result;
+    }
+    async findCaseOfDoctor(id) {
+        let query = createSQL.findByValColTable([id], ["DoctorID"], "DOCTOR_OWN_CASE")
+        let result = await conn.query(query)
+        const data: string[] = []
+        if (result.length == 0) return data
+        result.forEach(i => {
+            data.push(i.CaseID)
+        });
+        return data
+    }
+    async findCaseOfNurse(id) {
+        let query = createSQL.findByValColTable([id], ["NurseID"], "NURSE_TCO_CASE")
+        let result = await conn.query(query)
+        const data: string[] = []
+        if (result.length == 0) return data
+        result.forEach(i => {
+            data.push(i.CaseID)
+        });
+        return data
+    }
+    async findCaseOfIntern(id) {
+        let query = createSQL.findByValColTable([id], ["InternID"], "INTERN_TRO_CASE")
+        let result = await conn.query(query)
+        const data: string[] = []
+        if (result.length == 0) return data
+        result.forEach(i => {
+            data.push(i.CaseID)
+        });
+        return data
     }
 }
 

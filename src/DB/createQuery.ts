@@ -19,7 +19,7 @@ class CreateSQL {
         if (col.length != id.length) throw "Number of Input is Invalid"
         let collumn = "(\"" + col.join("\",\"") + "\")"
         let value = "(\'" + id.join("\',\'") + "\')"
-        return "delete From \"" + table + "\" where \"" + collumn + "\" = \'" + value + "\'"
+        return "delete From \"" + table + "\" where " + collumn + " = " + value 
     }
     findByValColTable(val: string[], col: string[], table: string) {
         if (col.length != val.length) throw "Number of Input is Invalid"

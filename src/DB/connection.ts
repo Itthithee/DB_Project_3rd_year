@@ -13,11 +13,10 @@ class Connect {
     async query(text: string) {
         try {
             let res = await this.pool.query(text)
-            console.log(res);
             return res.rows
         }
         catch (err) {
-            console.log(err);
+            
             return err
         }
 

@@ -27,15 +27,6 @@ export class PatientController {
     }
     @Get()
     getAll(): any {
-        const response = {
-            statusCode: 200,
-            headers: {
-              "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-              "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
-            },
-            body: this.patientservice.getAll()
-          };
-          
         return this.patientservice.getAll() ;
     }
     @Get('findbyname/:fname/:lname')

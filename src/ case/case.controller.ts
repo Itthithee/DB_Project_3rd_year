@@ -32,7 +32,7 @@ export class CaseController {
     removeById(@Param('id') id: string) {
         return this.caseservice.deleteCase(id);
     }
-    @Get('find/:id')
+    @Get('findbyid/:id')
     findById(@Param('id') id: string) {
         return this.caseservice.findById(id);
     }
