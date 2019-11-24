@@ -3,7 +3,7 @@ import { CaseService } from "./case.service";
 @Controller('case')
 export class CaseController {
     constructor(private readonly caseservice: CaseService) { }
-    @Post()
+    @Post('insert')
     add(
         @Body('Date') date: string,
         @Body('Description') desc: string,
@@ -19,6 +19,14 @@ export class CaseController {
             patId,
             docId
         )
+    }
+    @Post('insert/doctor')
+    addDoctorToCase(
+        @Body('CaseID') caseID: string,
+        @Body('DoctorID') docID: string,
+
+    ) {
+        return this.caseservice.insertDoctorOwnCase(caseID,docID)
     }
     @Get()
     getAll(): any {

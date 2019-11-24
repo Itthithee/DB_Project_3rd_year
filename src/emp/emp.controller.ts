@@ -3,7 +3,7 @@ import { EmployeeService } from './emp.service'
 @Controller('employee')
 export class EmployeeController {
     constructor(private readonly employeeservice: EmployeeService) { }
-    @Post()
+    @Post('insert')
     addEmployee(
         @Body('Fname') empFname: string,
         @Body('Lname') empLname: string,
@@ -22,6 +22,7 @@ export class EmployeeController {
         @Body('Speciallist') special: string
 
     ) {
+        
         return this.employeeservice.insertEmployee(
             empFname,
             empLname,
@@ -38,6 +39,8 @@ export class EmployeeController {
             startDate,
             endDate,
             special);
+        
+        
     }
     @Get()
     getEmps(): any {

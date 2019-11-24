@@ -3,7 +3,7 @@ import { PatientService } from './patient.service'
 @Controller('patient')
 export class PatientController {
     constructor(private readonly patientservice: PatientService) { }
-    @Post()
+    @Post('insert')
     add(
         @Body('Fname') fname: string,
         @Body('Lname') lname: string,

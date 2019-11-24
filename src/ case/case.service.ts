@@ -12,8 +12,6 @@ export class CaseService {
     ) {
         let col = ["CaseID", "Date", "Description", "Diagnosis", "PatientID"]
         let res = await conn.query("SELECT * FROM \"CASE\" ORDER BY \"CaseID\" DESC LIMIT 1")
-        console.log(res);
-
         let id: string = "0000000001"
         if (res[0] !== undefined) {
             let e = res[0].CaseID
@@ -22,18 +20,19 @@ export class CaseService {
                 id = "0" + id
             }
         }
-        console.log(id);
-
         let val = [id, date, desc, diag, patId]
         let query1 = createSQL.insertValColTable(val, col, "CASE")
 
         let result1 = await conn.query(query1);
         let query2 = createSQL.insertValColTable([id, docId], ["CaseID", "DoctorID"], "DOCTOR_OWN_CASE")
         let result2 = await conn.query(query2)
-        if (result2.name = "error") {
+
+        if (result2.name == "error") {
             this.deleteCase(id)
+            return result2
         }
-        return [result1, result2]
+        
+        return result2
     }
     async findById(id) {
         let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" where \"CaseID\" = \'" + id + "\'"
@@ -53,7 +52,6 @@ export class CaseService {
                 }
             });
         });
-        console.log(result)
         return result;
     }
     async findByPatId(patId) {
@@ -74,7 +72,6 @@ export class CaseService {
                 }
             });
         });
-        console.log(result)
         return result;
     }
     async updateCase(
@@ -114,7 +111,6 @@ export class CaseService {
                 }
             });
         });
-        console.log(result)
         return result;
     }
     async insertNurseTCOCase(id, nurseId) {

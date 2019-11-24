@@ -43,12 +43,10 @@ export class PatientService {
 
 
 
-        try {
+        
             let result = await conn.query(query);
-            return [result]
-        } catch (err) {
-            return err.toString
-        }
+            return result
+        
 
     }
     async getAll() {
@@ -59,7 +57,6 @@ export class PatientService {
     async deletePatient(id) {
         let query: string = createSQL.deleteByIdColTable([id], ["PatientID"], "PATIENT")
         let result = await conn.query(query);
-        console.log(query)
         return result
     }
     async findByName(fname, lname) {
@@ -98,7 +95,6 @@ export class PatientService {
         let query: string = createSQL.updateByIdValColTable(id, "PatientID", val, col, "PATIENT")
 
         let result = await conn.query(query);
-        console.log(result);
         
         return result
 
