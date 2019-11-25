@@ -28,6 +28,22 @@ export class CaseController {
     ) {
         return this.caseservice.insertDoctorOwnCase(caseID,docID)
     }
+    @Post('insert/nurse')
+    addNurseToCase(
+        @Body('CaseID') caseID: string,
+        @Body('NurseID') nID: string,
+
+    ) {
+        return this.caseservice.insertNurseTCOCase(caseID,nID)
+    }
+    @Post('insert/intern')
+    addInternToCase(
+        @Body('CaseID') caseID: string,
+        @Body('InternID') inID: string,
+
+    ) {
+        return this.caseservice.insertInternTROCase(caseID,inID)
+    }
     @Get()
     getAll(): any {
         return this.caseservice.getAll();

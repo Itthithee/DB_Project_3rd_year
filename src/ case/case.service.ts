@@ -37,42 +37,74 @@ export class CaseService {
     async findById(id) {
         let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" where \"CaseID\" = \'" + id + "\'"
         let query2: string = "select * from \"DOCTOR_OWN_CASE\""
+        let query3: string = "select * from \"NURSE_TCO_CASE\""
+        let query4: string = "select * from \"INTERN_TRO_CASE\""
         let result = await conn.query(query);
         let result2 = await conn.query(query2);
-        if (result.name == "error" || result2.name == "error") {
-            return [result, result2]
+        let result3 = await conn.query(query3);
+        let result4 = await conn.query(query4);
+        if (result.name == "error" || result2.name == "error" ||result3.name == "error" || result4.name == "error") {
+            return [result, result2,result3,result4]
         }
 
 
         result.forEach(obj => {
             obj.DoctorID = []
+            obj.NurseID = []
+            obj.InternID = []
             result2.forEach(i => {
                 if (obj.CaseID == i.CaseID) {
                     obj.DoctorID.push(i.DoctorID); //how to fix o(n^2)
                 }
             });
+            result3.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.NurseID.push(i.NurseID); //how to fix o(n^2)
+                }
+            });
+            result4.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.InternID.push(i.InternID); //how to fix o(n^2)
+                }
+            });
         });
-        return result;
+        return result
     }
     async findByPatId(patId) {
         let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" where \"PatientID\" = \'" + patId + "\'"
         let query2: string = "select * from \"DOCTOR_OWN_CASE\""
+        let query3: string = "select * from \"NURSE_TCO_CASE\""
+        let query4: string = "select * from \"INTERN_TRO_CASE\""
         let result = await conn.query(query);
         let result2 = await conn.query(query2);
-        if (result.name == "error" || result2.name == "error") {
-            return [result, result2]
+        let result3 = await conn.query(query3);
+        let result4 = await conn.query(query4);
+        if (result.name == "error" || result2.name == "error" ||result3.name == "error" || result4.name == "error") {
+            return [result, result2,result3,result4]
         }
 
 
         result.forEach(obj => {
             obj.DoctorID = []
+            obj.NurseID = []
+            obj.InternID = []
             result2.forEach(i => {
                 if (obj.CaseID == i.CaseID) {
                     obj.DoctorID.push(i.DoctorID); //how to fix o(n^2)
                 }
             });
+            result3.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.NurseID.push(i.NurseID); //how to fix o(n^2)
+                }
+            });
+            result4.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.InternID.push(i.InternID); //how to fix o(n^2)
+                }
+            });
         });
-        return result;
+        return result
     }
     async updateCase(
         id: string,
@@ -96,18 +128,35 @@ export class CaseService {
     async getAll() {
         let query: string = "select * from \"CASE\" NATURAL LEFT OUTER JOIN \"PATIENT\" "
         let query2: string = "select * from \"DOCTOR_OWN_CASE\""
+        let query3: string = "select * from \"NURSE_TCO_CASE\""
+        let query4: string = "select * from \"INTERN_TRO_CASE\""
+
         let result = await conn.query(query);
         let result2 = await conn.query(query2);
-        if (result.name == "error" || result2.name == "error") {
-            return [result, result2]
+        let result3 = await conn.query(query3);
+        let result4 = await conn.query(query4);
+        if (result.name == "error" || result2.name == "error" ||result3.name == "error" || result4.name == "error") {
+            return [result, result2,result3,result4]
         }
 
 
         result.forEach(obj => {
             obj.DoctorID = []
+            obj.NurseID = []
+            obj.InternID = []
             result2.forEach(i => {
                 if (obj.CaseID == i.CaseID) {
                     obj.DoctorID.push(i.DoctorID); //how to fix o(n^2)
+                }
+            });
+            result3.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.NurseID.push(i.NurseID); //how to fix o(n^2)
+                }
+            });
+            result4.forEach(i => {
+                if (obj.CaseID == i.CaseID) {
+                    obj.InternID.push(i.InternID); //how to fix o(n^2)
                 }
             });
         });
